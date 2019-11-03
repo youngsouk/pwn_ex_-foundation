@@ -8,7 +8,11 @@ from colored import fg, attr
 def init():
 	global f_name
 	buffer = ''
+	buffer += "import sys\n"
 	buffer += "from pwn import *\n\n"
+
+	buffer += "if len(sys.argv) != 2:\n"
+	buffer += "\tprint \"sys.argv[1] = r : remote	l : local\"\n\n"
 
 	buffer += "context.log_level = 'debug'\n\n"
 
@@ -166,11 +170,17 @@ def setup():
 	global f_name
 	buffer = ''
 
-	buffer += "p = process('./" + str(f_name) + "')\n"
-	buffer += "#p = remote('',)\n"
-	buffer += "e = ELF('./" + str(f_name) + "')\n"
-	buffer += "l = e.libc\n"
-	buffer += "#l = ELF('./')\n\n"
+	buffer += "if sys.argv[1].strip() == 'l':\n"
+	buffer += "\tp = process('./" + str(f_name) + "')\n"
+	buffer += "elif sys.argv[1].strip() == 'r':\n"
+	buffer += "\tp = remote('',)\n\n"
+	
+	buffer += "e = ELF('./" + str(f_name) + "')\n\n"
+
+	buffer += "if sys.argv[1].strip() == 'l':\n"
+	buffer += "\tl = e.libc\n"
+	buffer += "elif sys.argv[1].strip() == 'r':\n"
+	buffer += "\tl = ELF('./')\n\n"
 
 	return buffer
 
