@@ -13,6 +13,7 @@ def init():
 
 	buffer += "if len(sys.argv) != 2:\n"
 	buffer += "\tprint \"sys.argv[1] = r : remote	l : local\"\n\n"
+	buffer += "\texit()\n"
 
 	buffer += "context.log_level = 'debug'\n\n"
 
@@ -131,7 +132,7 @@ def make_func(p, menu_content, key, function_names, before_menu):
 
 			send_before_menu(p, before_menu)
 			p.recvuntil(key, timeout = 5)
-			p.recv(1)
+#			p.recv(1)
 			menu += def_func(key, params[:-1], function_info, params_conditions[:-1])
 			continue
 
